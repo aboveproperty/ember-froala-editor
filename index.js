@@ -30,7 +30,7 @@ module.exports = {
 
   // https://github.com/ember-cli/ember-cli-version-checker#forember
   init() {
-    this._super.init.apply( this, arguments );
+    this._super.init && this._super.init.apply( this, arguments );
     var checker = new VersionChecker( this );
     checker.forEmber().assertAbove(
       '2.4.2',
