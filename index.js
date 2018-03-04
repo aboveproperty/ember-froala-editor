@@ -221,7 +221,7 @@ module.exports = {
         }
         */
         
-        this.import(
+        target.import(
           path.join( nodePath, pathFiles[ file + asset.extension ] )
         );
 
