@@ -222,7 +222,7 @@ module.exports = {
         */
         
         target.import(
-          path.join( nodePath, pathFiles[ file + asset.extension ] )
+          path.join( vendorPath, pathFiles[ file + asset.extension ] )
         );
 
 
