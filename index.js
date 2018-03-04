@@ -207,6 +207,7 @@ module.exports = {
 
         // If the file type is CSS then import both
         // the non-minified and minified versions
+        /*  AS - Removed in latest version
         if ( asset.extension === '.css' ) {
           target.import({
             development : path.join( vendorPath, pathFiles[file + asset.extension] ),
@@ -218,6 +219,11 @@ module.exports = {
             path.join( vendorPath, pathFiles[file + asset.extension] )
           );
         }
+        */
+        
+        this.import(
+          path.join( nodePath, pathFiles[ file + asset.extension ] )
+        );
 
 
       }); // files.forEach()
