@@ -209,8 +209,8 @@ module.exports = {
         // the non-minified and minified versions
         if ( asset.extension === '.css' ) {
           target.import({
-            development : path.join( vendorPath, asset.path, file + asset.extension ),
-            production  : path.join( vendorPath, asset.path, file + '.min' + asset.extension )
+            development : path.join( vendorPath, pathFiles[file + asset.extension] ),
+            production  : path.join( vendorPath, pathFiles[file + '.min' + asset.extension] )
           });
         } else {
           target.import(
