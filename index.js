@@ -108,13 +108,13 @@ module.exports = {
     if ( options.plugins && options.plugins !== [] ) {
       additionalAssets.push({
         label     : 'Plugin(s)',
-        path      : path.join( 'js', 'plugins' ),
+        paths     : [path.join( 'js', 'plugins' ), path.join( 'js', 'third_party' )],
         files     : options.plugins,
         extension : '.min.js'
       });
       additionalAssets.push({
         label     : 'Plugin CSS',
-        path      : path.join( 'css', 'plugins' ),
+        paths     : [path.join( 'css', 'plugins' ), path.join( 'css', 'third_party' )],
         files     : options.plugins,
         extension : '.css',
         optional  : true
@@ -123,7 +123,7 @@ module.exports = {
     if ( options.languages && options.languages !== [] ) {
       additionalAssets.push({
         label     : 'Language(s)',
-        path      : path.join( 'js', 'languages' ),
+        paths     : [path.join( 'js', 'languages' )],
         files     : options.languages,
         extension : '.js'
       });
@@ -131,7 +131,7 @@ module.exports = {
     if ( options.themes && options.themes !== [] ) {
       additionalAssets.push({
         label     : 'Themes(s)',
-        path      : path.join( 'css', 'themes' ),
+        paths     : [path.join( 'css', 'themes' )],
         files     : options.themes,
         extension : '.css'
       });
@@ -147,8 +147,18 @@ module.exports = {
 
 
       // List of files for the given path
-      var pathFiles = fs.readdirSync( path.join( froalaPath, asset.path ) );
+      // var pathFiles = fs.readdirSync( path.join( froalaPath, asset.path ) );
+      // List of files for the given path(s)
+      let pathFiles = {}; // key = filename, value = relative path with filename
 
+      // Build complete list of files in all paths
+      asset.paths.forEach( assetPath => {
+        fs.readdirSync(
+          path.join( froalaPath, assetPath )
+        ).forEach( fileName => {
+          pathFiles[ fileName ] = path.join( assetPath, fileName );
+        });
+      });
 
       // Bucket for missing files
       var missingFiles = [];
@@ -160,7 +170,8 @@ module.exports = {
 
 
         // Generate a list of _all_ the available files
-        asset.files = pathFiles.map(function( file ){
+        // asset.files = pathFiles.map(function( file ){
+        asset.files = Object.keys(pathFiles).map(function( file ){  
           return file.split('.')[0]; // remove extensions
         }).reduce(function( files, file ){
           if ( files.indexOf( file ) === -1 ) files.push( file );
@@ -187,7 +198,8 @@ module.exports = {
 
 
         // Make sure the requested file exists
-        if ( pathFiles.indexOf( file + asset.extension ) === -1 ) {
+        // if ( pathFiles.indexOf( file + asset.extension ) === -1 ) {
+        if ( !pathFiles.hasOwnProperty( file + asset.extension ) ) {
           missingFiles.push( file );
           return; // continue;
         }
@@ -202,7 +214,8 @@ module.exports = {
           });
         } else {
           target.import(
-            path.join( vendorPath, asset.path, file + asset.extension )
+            //path.join( vendorPath, asset.path, file + asset.extension )
+            path.join( vendorPath, pathFiles[file + asset.extension] )
           );
         }
 
