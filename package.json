@@ -1,6 +1,6 @@
 {
   "name": "ember-froala-editor",
-  "version": "2.6.0",
+  "version": "2.6.3",
   "description": "An ember-cli addon that properly wraps the Froala WYSIWYG Editor for use in Ember.js",
   "homepage": "https://froala.github.io/ember-froala-editor/",
   "bugs": "https://github.com/froala/ember-froala-editor/issues",
@@ -61,7 +61,7 @@
     "ember-cli-htmlbars": "^1.1.1",
     "ember-cli-version-checker": "^1.2.0",
     "ember-string-ishtmlsafe-polyfill": "^1.1.0",
-    "froala-editor": "~2.6.1"
+    "froala-editor": "~2.6.3"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
